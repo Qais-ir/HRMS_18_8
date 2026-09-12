@@ -46,7 +46,6 @@ namespace HRMS.Controllers
                            BirthDate = emp.BirthDate,
                            StartDate = emp.StartDate,
                            EndDate = emp.EndDate,
-                           Salary = emp.Salary
                        };
 
             return Ok(data);
@@ -65,7 +64,6 @@ namespace HRMS.Controllers
                 BirthDate = x.BirthDate,
                 StartDate = x.StartDate,
                 EndDate = x.EndDate,
-                Salary = x.Salary
             }).FirstOrDefault(x => x.Id == id);// .SingleOrDefault(x => x.Id == id);
 
             if (data == null) // No Employee
