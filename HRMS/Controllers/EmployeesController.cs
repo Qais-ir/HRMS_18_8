@@ -1,7 +1,9 @@
-﻿using HRMS.Dtos.Employees;
+﻿using HRMS.DbContexts;
+using HRMS.Dtos.Employees;
 using HRMS.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HRMS.Controllers
 {
@@ -10,9 +12,12 @@ namespace HRMS.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        public EmployeesController()
+        // Dependcey Injuction
+        private readonly HRMSContext _dbContext;// = new HRMSContext();
+
+        public EmployeesController(HRMSContext dbContext)
         {
-            Console.WriteLine();
+            _dbContext = dbContext;
         }
         // Mockup Data
         public static List<Employee> employees = new List<Employee>()
@@ -32,7 +37,7 @@ namespace HRMS.Controllers
         [HttpGet]
         public IActionResult GetByCriteria([FromQuery] SearchEmployeeDto searchEmployeeDto)
         {
-            var data = from emp in employees
+            var data = from emp in _dbContext.Employees
                        where 
                            (searchEmployeeDto.Position == null || emp.Position.ToUpper().Contains(searchEmployeeDto.Position.ToUpper())) &&
                            (searchEmployeeDto.Name == null || emp.FirstName.ToUpper().Contains(searchEmployeeDto.Name.ToUpper())) &&
