@@ -63,22 +63,22 @@ namespace HRMS.Controllers
         {
             //var data = employees.Where(x => x.Id == id);
 
-          //  var data = _dbContext.Employees.Join(
-          //    _dbContext.Departments,
-          //    employee => employee.DepartmentId,
-          //    department => department.Id,
-          //    (employee, department) => new EmployeeDto
-          //    {
-          //        Id = employee.Id,
-          //        FullName = employee.FirstName + " " + employee.LastName,
-          //        Position = employee.Position,
-          //        BirthDate = employee.BirthDate,
-          //        StartDate = employee.StartDate,
-          //        EndDate = employee.EndDate,
-          //        DepartmentId = employee.DepartmentId,
-          //        DepartmentName = department.Name,
-          //    }
-          //).FirstOrDefault(x => x.Id == id);
+            //  var data = _dbContext.Employees.Join(
+            //    _dbContext.Departments,
+            //    employee => employee.DepartmentId,
+            //    department => department.Id,
+            //    (employee, department) => new EmployeeDto
+            //    {
+            //        Id = employee.Id,
+            //        FullName = employee.FirstName + " " + employee.LastName,
+            //        Position = employee.Position,
+            //        BirthDate = employee.BirthDate,
+            //        StartDate = employee.StartDate,
+            //        EndDate = employee.EndDate,
+            //        DepartmentId = employee.DepartmentId,
+            //        DepartmentName = department.Name,
+            //    }
+            //).FirstOrDefault(x => x.Id == id);
 
             var data = _dbContext.Employees.Select(x => new EmployeeDto
             {
@@ -90,10 +90,12 @@ namespace HRMS.Controllers
                 EndDate = x.EndDate,
                 Salary = x.Salary,
                 DepartmentId = x.DepartmentId,//emp.DepartmentId,
-                //DepartmentName = dep.Name,
+                DepartmentName = x.Department.Name,
                 ManagerId = x.ManagerId,//emp.ManagerId
-                //ManagerName = manager.FirstName + " " + manager.LastName,
+                ManagerName = x.Manager.FirstName + " " + x.Manager.LastName,
             }).FirstOrDefault(x => x.Id == id);// .SingleOrDefault(x => x.Id == id);
+
+            //var data = _dbContext.Employees.Include(x => x.Department).FirstOrDefault(x => x.Id == id).Department.Name;
 
             if (data == null) // No Employee
             {
@@ -103,7 +105,9 @@ namespace HRMS.Controllers
             return Ok(data);
 
         }
-
+        // Include => Eager Loading (Join)
+        // ?? => Lazy Loading
+        // Select => Projection (Join)
         [HttpPost]
         public IActionResult Create([FromBody] SaveEmployeeDto employeeDto)
         {
