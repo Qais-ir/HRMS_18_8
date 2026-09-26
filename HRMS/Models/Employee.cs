@@ -13,8 +13,10 @@ namespace HRMS.Models
         public string LastName { get; set; }
         [MaxLength(50)]
         public string? Email { get; set; } // (?) => Optinal / Nullable (null)
-        [MaxLength(50)]
-        public string Position { get; set; }
+
+        //[MaxLength(50)]
+        //public string Position { get; set; } 
+
         public DateTime BirthDate { get; set; }
         [MaxLength(50)]
         public string PhoneNumber { get; set; } // 07, +96279
@@ -30,6 +32,10 @@ namespace HRMS.Models
         [ForeignKey("Manager")]
         public long? ManagerId { get; set; }
         public Employee? Manager { get; set; } // Navigation Property
+
+        [ForeignKey("Lookup")]
+        public long? PositionId { get; set; }
+        public Lookup? Lookup { get; set; } // Navigation Property
 
     }
 }
