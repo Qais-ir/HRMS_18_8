@@ -39,12 +39,17 @@ namespace HRMS.DbContexts
                     new Lookup { Id = 7, MajorCode = 1, MinorCode = 2, Name = "Adminstrative" },
                     new Lookup { Id = 8, MajorCode = 1, MinorCode = 3, Name = "Technical" }
                 );
+            //BCrypt.Net.BCrypt.HashPassword("Admin@123") = "$2a$11$CvI/yU1KQfZkycureOco4.nh1IeL8f.uD6rR6s99l.fmCaRLbsfU6"
+            modelBuilder.Entity<User>().HasData(
+                    new User { Id = 1, Username = "Admin", IsAdmin = true, HashedPassword = "$2a$11$CvI/yU1KQfZkycureOco4.nh1IeL8f.uD6rR6s99l.fmCaRLbsfU6" }
+                );
         }
 
         // Tables <--> DbSet
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Lookup> Lookups { get; set; }
+        public DbSet<User> Users { get; set; }
 
     }
 }
