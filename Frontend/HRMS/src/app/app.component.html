@@ -16,9 +16,70 @@
   Array : {{arr}}
 </div> -->
 
-<div *ngFor="let student of students">
-  <span style="margin-right: 5px">{{student.name}}</span>
-  <span style="margin-right: 5px">{{student.mark}}%</span>
+<!-- Structral Directives: NgIf, NgFor, NgSwitch -->
+<!-- Attribute Directives : NgClass, NgStyle, NgModel -->
+
+<!-- <div *ngFor="let student of students; index as i">
+  <span>{{i + 1}} .</span>
+  <span style="margin-right: 5px"
+    [ngClass]="{'passed': student.mark > 50, 'failed': student.mark <= 50}">{{student.name}}</span>
+  <span style="margin-right: 5px"
+    [ngStyle]="{'color': student.mark > 50 ? 'green' : 'red'}">{{student.mark}}%</span>
   <span *ngIf="student.mark > 50">Passed</span>
   <span *ngIf="student.mark <= 50">Failed</span>
 </div>
+
+<br>
+<br>
+<br>
+<br>
+<br> -->
+<!-- Angular 17 -->
+<!-- Control Flow Syntax -->
+<!-- Template Syntax -->
+
+<!-- @for(student of students; track student.id;  let i = $index){
+<div>
+  <span>{{i + 1}} .</span> -->
+  <!-- <span style="margin-right: 5px" [class.passed]="student.mark > 50" [class.failed]="student.mark <= 50">{{student.name}}</span> -->
+  <!-- <span style="margin-right: 5px" [class]="student.mark > 50? 'passed' : 'failed'">{{student.name}}</span>
+  <span style="margin-right: 5px" [style.color]="student.mark > 50 ? 'green' : 'red'">{{student.mark}}%</span>
+ 
+  @if(student.mark > 50){
+      <span>Passed</span>
+  }
+  @else{
+      <span>Failed</span>
+  }
+</div>
+} -->
+
+
+<!-- Data Binding -->
+<!-- One Way Data Binding -->
+<!-- input [] ts => html -->
+<!-- output () html => ts -->
+<!-- 
+<div style="margin: 40px;">
+  <img width="50%" height="50%" alt="reandom-image"
+ [src]="images[currentIndex]">
+
+ <br>
+
+ <button type="button" (click)="previous()" [disabled]="currentIndex == 0">Previous</button>
+ <button type="button" (click)="next()" [disabled]="currentIndex == images.length -1" >Next</button>
+</div> -->
+
+
+<!-- Two Way Data Binding -->
+ <!-- input output -->
+  <!-- NgModel -->
+  <!-- Forms Control -->
+
+  <div style="margin: 40px;">
+    <input type="text" [(ngModel)]="name">
+  </div>
+
+  <div class="title">
+    {{name}}
+  </div>
