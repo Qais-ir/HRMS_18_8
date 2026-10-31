@@ -43,7 +43,9 @@
             <h5>Employees</h5>
 
             <div>
-                <button type="button" class="btn btn-secondary">Add Employee</button>
+                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#saveEmployeeModal">
+                    Add Employee
+                </button>
 
             </div>
         </div>
@@ -51,34 +53,146 @@
             <table class="table table-striped">
                 <thead>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">First</th>
-                        <th scope="col">Last</th>
-                        <th scope="col">Handle</th>
+                       @for(col of employeesTableColumns; track col){
+                        <th>{{col}}</th>
+                       }
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <th scope="row">1</th>
-                        <td>Mark</td>
-                        <td>Otto</td>
-                        <td>@mdo</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">2</th>
-                        <td>Jacob</td>
-                        <td>Thornton</td>
-                        <td>@fat</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">3</th>
-                        <td>John</td>
-                        <td>Doe</td>
-                        <td>@social</td>
-                    </tr>
+                    @for(employee of employees; track employee.id){
+                        <tr>
+                            <td>{{employee.firstName}} {{employee.lastName}}</td>
+                            <td>{{employee.positionName}}</td>
+                            <td>{{employee.birthDate | date:'dd/MM/yyyy'}}</td>
+                            <!-- <td>{{employee.isActive}}</td> -->
+                             <td>
+                                @if(employee.isActive){
+                                    <span class="badge text-bg-success">Active</span>
+                                }
+                                @else{
+                                    <span class="badge text-bg-danger">Inactive</span>
+                                }
+                             </td>
+                            <td>{{employee.email}}</td>
+                            <td>{{employee.salary | currency:'USD'}}</td>
+                            <td>{{employee.departmentName}}</td>
+                            <td>{{employee.managerName}}</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         </div>
     </div>
 
+</div>
+
+
+<!-- Save Employee Modal -->
+<div class="modal modal-lg fade" id="saveEmployeeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Save Employee</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        
+        <form [formGroup]="employeeForm">
+            <div class="row align-end">
+
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <label for="firstName" class="form-label">First Name</label>
+                    <input type="text" class="form-control" id="firstName" formControlName="firstName"
+                     placeholder="First Name">
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <label for="lastName" class="form-label">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" formControlName="lastName"
+                     placeholder="Last Name">
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <label for="birthDate" class="form-label">BirthDate</label>
+                    <input type="date" class="form-control" id="birthDate" formControlName="birthDate"
+                     placeholder="BirthDate">
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <label for="email" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="email" formControlName="email"
+                     placeholder="Email">
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <label for="phoneNumber" class="form-label">Phone Number</label>
+                    <input type="text" class="form-control" id="phoneNumber" formControlName="phoneNumber"
+                     placeholder="Phone Number">
+                </div>
+
+
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <label for="salary" class="form-label">Salary</label>
+                    <input type="number" class="form-control" id="salary" formControlName="salary"
+                     placeholder="Salary">
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <label for="startDate" class="form-label">Start Date</label>
+                    <input type="date" class="form-control" id="startDate" formControlName="startDate"
+                     placeholder="Start Date">
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <label for="endDate" class="form-label">End Date</label>
+                    <input type="date" class="form-control" id="endDate" formControlName="endDate"
+                     placeholder="End Date">
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <label for="department" class="form-label">Department</label>
+                    <select id="department" class="form-select" formControlName="departmentId">
+                        @for(item of departments; track item.id){
+                            <option [value]="item.id">{{item.name}}</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <label for="position" class="form-label">Position</label>
+                    <select id="position" class="form-select" formControlName="positionId">
+                        @for(item of positions; track item.id){
+                            <option [value]="item.id">{{item.name}}</option>
+                        }
+                    </select>
+                </div>
+
+                 <div class="col-lg-4 col-md-4 col-sm-12">
+                    <label for="manager" class="form-label">Manager</label>
+                    <select id="manager" class="form-select" formControlName="managerId">
+                        @for(item of managers; track item.id){
+                            <option [value]="item.id">{{item.name}}</option>
+                        }
+                    </select>
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="isActive" formControlName="isActive">
+                        <label class="form-check-label" for="isActive">Status</label>
+                    </div>
+                </div>
+
+
+
+
+            </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
 </div>
