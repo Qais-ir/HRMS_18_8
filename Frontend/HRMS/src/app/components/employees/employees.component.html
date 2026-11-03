@@ -3,7 +3,10 @@
 
     <div class="card">
         <div class="card-header">
-            <h5>Filter</h5>
+            <h5>
+                <i class="bi bi-funnel"></i>
+                Filter
+            </h5>
         </div>
         <div class="card-body">
             <div class="row">
@@ -32,7 +35,10 @@
             </div>
 
             <div class="mt-2 text-end">
-                <button type="button" class="btn btn-secondary">Search</button>
+                <button type="button" class="btn btn-outline-secondary">
+                    <i class="bi bi-search"></i>
+                    Search
+                </button>
 
             </div>
         </div>
@@ -43,7 +49,8 @@
             <h5>Employees</h5>
 
             <div>
-                <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#saveEmployeeModal">
+                <button type="button" class="btn btn-outline-secondary" (click)="resetForm()" data-bs-toggle="modal" data-bs-target="#saveEmployeeModal">
+                    <i class="bi bi-person-plus"></i>
                     Add Employee
                 </button>
 
@@ -77,6 +84,16 @@
                             <td>{{employee.salary | currency:'USD'}}</td>
                             <td>{{employee.departmentName}}</td>
                             <td>{{employee.managerName}}</td>
+                            <td>
+                                <button data-bs-toggle="modal" data-bs-target="#saveEmployeeModal"
+                                type="button" class="btn btn-outline-success" (click)="loadEmployeeForm(employee.id)">
+                                    <i class="bi bi-pencil-fill"></i>
+                                </button>
+
+                                <button  type="button" class="btn btn-outline-danger ms-2" (click)="removeEmployee(employee.id)">
+                                    <i class="bi bi-trash3-fill"></i>
+                                </button>
+                            </td>
                         </tr>
                     }
                 </tbody>
@@ -190,8 +207,8 @@
         </form>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" #closeModal >Close</button>
+        <button type="button" class="btn btn-primary" [disabled]="this.employeeForm.invalid" (click)="saveEmployee()">Save changes</button>
       </div>
     </div>
   </div>
