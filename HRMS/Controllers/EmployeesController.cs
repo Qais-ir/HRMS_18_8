@@ -11,7 +11,7 @@ using System.Security.Claims;
 namespace HRMS.Controllers
 {
     // Data Annotation
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")] // api/Employees
     [ApiController]
     public class EmployeesController : ControllerBase
@@ -53,6 +53,8 @@ namespace HRMS.Controllers
                            {
                                Id = emp.Id,
                                FullName = emp.FirstName + " " + emp.LastName,
+                               FirstName = emp.FirstName,
+                               LastName = emp.LastName,
                                PositionId = emp.PositionId,
                                PositionName = lookup.Name,
                                BirthDate = emp.BirthDate,
@@ -63,13 +65,16 @@ namespace HRMS.Controllers
                                DepartmentName = dep.Name,
                                ManagerId = manager.Id,//emp.ManagerId
                                ManagerName = manager.FirstName + " " + manager.LastName,
-                               UserId = emp.UserId
+                               UserId = emp.UserId,
+                               PhoneNumber = emp.PhoneNumber,
+                               IsActive = emp.IsActive,
+                               Email = emp.Email
                            };
 
-                if (role?.ToUpper() != "ADMIN" && role?.ToUpper() != "HR")
-                {
-                    data = data.Where(x => x.UserId == long.Parse(userId));
-                }
+                //if (role?.ToUpper() != "ADMIN" && role?.ToUpper() != "HR")
+                //{
+                //    data = data.Where(x => x.UserId == long.Parse(userId));
+                //}
 
                 return Ok(data);
             }
@@ -139,7 +144,7 @@ namespace HRMS.Controllers
         // Include => Eager Loading (Join)
         // ?? => Lazy Loading
         // Select => Projection (Join)
-        [Authorize(Roles = "HR,Admin")]
+        //[Authorize(Roles = "HR,Admin")]
         [HttpPost]
         public IActionResult Create([FromBody] SaveEmployeeDto employeeDto)
         {
@@ -193,7 +198,7 @@ namespace HRMS.Controllers
             
         }
 
-        [Authorize(Roles = "HR,Admin")]
+        //[Authorize(Roles = "HR,Admin")]
         [HttpPut("{id:long}")] // Update
         //[HttpPatch] // Update
         public IActionResult Update(long id,[FromBody] SaveEmployeeDto employeeDto)
@@ -236,7 +241,7 @@ namespace HRMS.Controllers
             
         }
 
-        [Authorize(Roles = "HR,Admin")]
+        //[Authorize(Roles = "HR,Admin")]
         [HttpDelete("{id:long}")]
         public IActionResult Delete(long id)
         {

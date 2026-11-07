@@ -36,6 +36,18 @@ namespace HRMS
                 };
             });
 
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAngular", builder =>
+                {
+                    //builder.AllowAnyOrigin()
+                    builder.WithOrigins("http://localhost:4200")
+                    .AllowAnyHeader()
+                    .AllowAnyMethod();
+                });
+            });
+
+
             // Container : Create New Object From DbContext : Depndencey Injuction
             builder.Services.AddDbContext<HRMSContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("HRMSContext"))
@@ -54,10 +66,9 @@ namespace HRMS
             // Middlewares
             app.UseHttpsRedirection();
 
+            app.UseCors("AllowAngular");
             app.UseAuthentication();
-
             app.UseAuthorization();
-
 
             app.MapControllers();
 
