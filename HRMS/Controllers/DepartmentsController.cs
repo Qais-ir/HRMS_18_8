@@ -1,6 +1,7 @@
 ﻿using HRMS.DbContexts;
 using HRMS.Dtos.Departments;
 using HRMS.Dtos.Employees;
+using HRMS.Dtos.Shared;
 using HRMS.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -8,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HRMS.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class DepartmentsController : ControllerBase
@@ -155,6 +156,25 @@ namespace HRMS.Controllers
                 _dbContext.Departments.Remove(department);
                 _dbContext.SaveChanges();
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new Exception(ex.Message));
+            }
+        }
+
+        [HttpGet("departments-list")]
+        public IActionResult DepartmentsList()
+        {
+            try
+            {
+                var data = _dbContext.Departments.Select(x => new ListDto
+                {
+                    Id = x.Id,
+                    Name = x.Name,
+                });
+
+                return Ok(data);
             }
             catch (Exception ex)
             {

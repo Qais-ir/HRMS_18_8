@@ -1,5 +1,7 @@
 ﻿using HRMS.DbContexts;
 using HRMS.Dtos.Employees;
+using HRMS.Dtos.Shared;
+using HRMS.Enums;
 using HRMS.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -113,6 +115,8 @@ namespace HRMS.Controllers
                 {
                     Id = x.Id,
                     FullName = x.FirstName + " " + x.LastName,
+                    FirstName = x.FirstName,
+                    LastName = x.LastName,
                     PositionId = x.PositionId,
                     PositionName = x.Lookup.Name,
                     BirthDate = x.BirthDate,
@@ -123,6 +127,10 @@ namespace HRMS.Controllers
                     DepartmentName = x.Department.Name,
                     ManagerId = x.ManagerId,//emp.ManagerId
                     ManagerName = x.Manager.FirstName + " " + x.Manager.LastName,
+                    UserId = x.UserId,
+                    PhoneNumber = x.PhoneNumber,
+                    IsActive = x.IsActive,
+                    Email = x.Email
                 }).FirstOrDefault(x => x.Id == id);// .SingleOrDefault(x => x.Id == id);
 
                 //var data = _dbContext.Employees.Include(x => x.Department).FirstOrDefault(x => x.Id == id).Department.Name;
@@ -264,7 +272,37 @@ namespace HRMS.Controllers
 
         }
 
+        [HttpGet("managers-list")]
+        public IActionResult GetManagers([FromQuery] long? empId)
+        {
+
+            try
+            {
+                var data = from emp in _dbContext.Employees
+                           from pos in _dbContext.Lookups.Where(x => x.Id == emp.PositionId)
+                           where emp.Id != empId &&
+                           pos.MajorCode == (int)LookupsMajorCodes.EmployeePositions &&
+                           pos.MinorCode == (int)PositionsMinorCodes.Manager
+                           select new ListDto
+                           {
+                               Id = emp.Id,
+                               Name = emp.FirstName + " " + emp.LastName
+                           };
+
+                return Ok(data);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new Exception(ex.Message));
+            }
+
+
+        }
+
     }
+
+
+
 
 
 }
