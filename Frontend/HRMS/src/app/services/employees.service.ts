@@ -13,11 +13,11 @@ export class EmployeesService {
     private _http = inject(HttpClient);//new HttpClient();
     private apiUrl : string = "https://localhost:7290/api/Employees";
 
-    getByCriteria(){
+    getByCriteria(searchObj : any){
         let params = new HttpParams();
-        params = params.set('PositionId', '');
-        params = params.set('Name', '');
-        params = params.set('IsActive', '');
+        params = params.set('PositionId', searchObj.positionId ?? '');
+        params = params.set('Name', searchObj.name ?? '');
+        params = params.set('IsActive',searchObj.isActive ?? '');
 
         return this._http.get(this.apiUrl, {params});
     }
@@ -39,5 +39,9 @@ export class EmployeesService {
 
     getById(id : number){
         return this._http.get(this.apiUrl + `/${id}`);
+    }
+
+    delete(id : number){
+        return this._http.delete(this.apiUrl + `/${id}`);
     }
 }

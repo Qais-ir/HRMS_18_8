@@ -9,6 +9,7 @@ import { List } from '../../interfaces/list.interface';
 import { DepartmentsService } from '../../services/departments.service';
 import { LookupsService } from '../../services/lookups.service';
 import { LookupsMajorCodes } from '../../enums/enums';
+import { isActive } from '@angular/router';
 @Component({
   imports: [CommonModule, ReactiveFormsModule, NgxPaginationModule, ConfirmationDialogComponent],
   providers: [DatePipe],
@@ -24,7 +25,6 @@ export class EmployeesComponent {
     private _departmentsService: DepartmentsService,
     private _lookupsService: LookupsService
   ) {
-
   }
 
   // document.getElementById('closeModal')
@@ -57,6 +57,12 @@ export class EmployeesComponent {
 
   managers: List[] = [];
 
+  employeeStatus = [
+    {value: null, name: "Select Status"},
+    {value: true, name: "Active"},
+    {value: false, name: "Inactive"},
+  ]
+
   employeeForm: FormGroup = new FormGroup({
     id: new FormControl(null),
     firstName: new FormControl(null, [Validators.required]),
@@ -72,6 +78,18 @@ export class EmployeesComponent {
     managerId: new FormControl(null),
     isActive: new FormControl(false, [Validators.required]),
   });
+
+  searchFilterForm: FormGroup = new FormGroup({
+    name: new FormControl(null),
+    positionId: new FormControl(null),
+    isActive: new FormControl(null)
+  });
+
+  ngOnInit(){
+    this.loadEmployees();
+    this.loadPositionsList();
+  }
+
 
   loadSaveDialog(employeeId?: number) {
     this.resetForm();
@@ -154,9 +172,14 @@ export class EmployeesComponent {
 
   loadEmployees() {
 
-    this.employees = [];
+    let searchObj = {
+      name: this.searchFilterForm.value.name,
+      positionId: this.searchFilterForm.value.positionId,
+      isActive: this.searchFilterForm.value.isActive
+    }
 
-    this._employeesService.getByCriteria().subscribe(
+    this.employees = [];
+    this._employeesService.getByCriteria(searchObj).subscribe(
       {
         next: (res: any) => { // Successful
           if (res?.length > 0) {
@@ -298,8 +321,14 @@ export class EmployeesComponent {
       return;
     }
 
-    let index = this.employees.findIndex(x => x.id == id);
-    this.employees.splice(index, 1);
+   this._employeesService.delete(id).subscribe({
+    next: res => {
+      this.loadEmployees();
+    },
+    error: err => { // Failed
+        alert(err.error?.message ?? err.error ?? err.message ?? "Unexpected Http Error");
+      }
+   })
   }
 
   changePage(pageNumber: number) {
@@ -310,6 +339,7 @@ export class EmployeesComponent {
   displayConfirmDialog(empId: number) {
     this.employeeIdToBeDeleted = empId;
     this.showConfirmDialog = true;
+
   }
 
   confirmEmployeeDelete(isConfirmed: boolean) {
