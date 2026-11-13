@@ -1,0 +1,39 @@
+<div class="main">
+
+    <div class="container-fluid form">
+
+        <div class="header">
+            <span>HR</span>
+            <span>Management System</span>
+        </div>
+
+        <div class="content" [formGroup]="loginForm">
+            <div class="mb-3">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username"
+                    formControlName="username"
+                    placeholder="Username">
+            </div>
+
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-control" id="password"
+                    formControlName="password"
+                    placeholder="Password">
+            </div>
+        </div>
+
+        <div class="actions">
+            <button type="button" class="btn btn-secondary" style="width: 100%;" (click)="login()">
+                Login
+            </button>
+        </div>
+
+        @if(showErrorMessage){
+            <div class="error-message">
+                * {{errorMessage}}
+            </div>
+        }
+
+    </div>
+</div>

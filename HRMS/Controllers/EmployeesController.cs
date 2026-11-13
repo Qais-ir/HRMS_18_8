@@ -13,7 +13,7 @@ using System.Security.Claims;
 namespace HRMS.Controllers
 {
     // Data Annotation
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")] // api/Employees
     [ApiController]
     public class EmployeesController : ControllerBase

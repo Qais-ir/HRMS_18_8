@@ -43,7 +43,7 @@ namespace HRMS.Controllers
 
             string token = GenerateToken(user);
 
-            return Ok(token);
+            return Ok(new { Token = token});
         }
 
         private string GenerateToken(User user)

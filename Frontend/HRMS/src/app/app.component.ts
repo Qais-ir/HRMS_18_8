@@ -1,5 +1,5 @@
 import { Component, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 // Decorator
 @Component({
@@ -11,4 +11,11 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 })
 export class App {
 
+  constructor(private router : Router){
+
+  }
+
+  showNavBar(){
+    return this.router.url !== '/login';
+  }
 }
