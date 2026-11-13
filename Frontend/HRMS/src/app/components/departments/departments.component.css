@@ -1,0 +1,18 @@
+.card-table-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.align-end{
+    align-items: end;
+}
+
+.invalid-form{
+    border-color: red;
+}
+
+.justify-content-end{
+    display: flex;
+    justify-content: flex-end;
+}
