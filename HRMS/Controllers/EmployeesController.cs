@@ -73,10 +73,10 @@ namespace HRMS.Controllers
                                Email = emp.Email
                            };
 
-                //if (role?.ToUpper() != "ADMIN" && role?.ToUpper() != "HR")
-                //{
-                //    data = data.Where(x => x.UserId == long.Parse(userId));
-                //}
+                if (role?.ToUpper() != "ADMIN" && role?.ToUpper() != "HR")
+                {
+                    data = data.Where(x => x.UserId == long.Parse(userId));
+                }
 
                 return Ok(data);
             }
@@ -152,7 +152,7 @@ namespace HRMS.Controllers
         // Include => Eager Loading (Join)
         // ?? => Lazy Loading
         // Select => Projection (Join)
-        //[Authorize(Roles = "HR,Admin")]
+        [Authorize(Roles = "HR,Admin")]
         [HttpPost]
         public IActionResult Create([FromBody] SaveEmployeeDto employeeDto)
         {
@@ -206,7 +206,7 @@ namespace HRMS.Controllers
             
         }
 
-        //[Authorize(Roles = "HR,Admin")]
+        [Authorize(Roles = "HR,Admin")]
         [HttpPut("{id:long}")] // Update
         //[HttpPatch] // Update
         public IActionResult Update(long id,[FromBody] SaveEmployeeDto employeeDto)
@@ -249,7 +249,7 @@ namespace HRMS.Controllers
             
         }
 
-        //[Authorize(Roles = "HR,Admin")]
+        [Authorize(Roles = "HR,Admin")]
         [HttpDelete("{id:long}")]
         public IActionResult Delete(long id)
         {

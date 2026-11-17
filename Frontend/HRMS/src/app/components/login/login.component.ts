@@ -12,7 +12,7 @@ export class LoginComponent {
 
   constructor(private _authService : AuthService, 
     private _router : Router,
-    private _cdr: ChangeDetectorRef,
+    private _cdr: ChangeDetectorRef
   ){
 
   }

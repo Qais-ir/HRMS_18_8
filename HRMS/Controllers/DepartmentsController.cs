@@ -76,7 +76,7 @@ namespace HRMS.Controllers
             }
 
         }
-
+        [Authorize(Roles = "HR,Admin")]
         [HttpPost]
         public IActionResult Create([FromBody] SaveDepartmentDto departmentDto)
         {
@@ -101,7 +101,7 @@ namespace HRMS.Controllers
                 return StatusCode(500, new Exception(ex.Message));
             }
         }
-
+        [Authorize(Roles = "HR,Admin")]
         [HttpPut("{id:long}")]
         public IActionResult Update(long id, [FromBody] SaveDepartmentDto departmentDto)
         {
@@ -134,7 +134,7 @@ namespace HRMS.Controllers
                 return StatusCode(500, new Exception(ex.Message));
             }
         }
-
+        [Authorize(Roles = "HR,Admin")]
         [HttpDelete("{id:long}")]
         public IActionResult Delete(long id)
         {

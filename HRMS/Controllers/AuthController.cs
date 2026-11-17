@@ -41,13 +41,14 @@ namespace HRMS.Controllers
 
             // Generate Token
 
-            string token = GenerateToken(user);
+            var token = GenerateToken(user);
 
-            return Ok(new { Token = token});
+            return Ok(token);
         }
 
-        private string GenerateToken(User user)
+        private TokenDto GenerateToken(User user)
         {
+            string role;
             // Claims => User Info
             var claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()));//UserId // Key/Value
@@ -57,12 +58,14 @@ namespace HRMS.Controllers
             if (user.IsAdmin)
             {
                 claims.Add(new Claim(ClaimTypes.Role, "Admin"));
+                role = "Admin";
             }
             else
             {
                 // Employee => Position
                 var employee = _dbContext.Employees.Include(x => x.Lookup).FirstOrDefault(x => x.UserId == user.Id);
                 claims.Add(new Claim(ClaimTypes.Role, employee.Lookup.Name));
+                role = employee.Lookup.Name;
             }
 
             // Secert Key + Signing
@@ -84,7 +87,7 @@ namespace HRMS.Controllers
 
 
 
-            return token;
+            return new TokenDto { Token = token, Role = role};
         }
     }
 }

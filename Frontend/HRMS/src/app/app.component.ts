@@ -18,4 +18,10 @@ export class App {
   showNavBar(){
     return this.router.url !== '/login';
   }
+
+  signOut(){
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    this.router.navigate(['/login']);
+  }
 }

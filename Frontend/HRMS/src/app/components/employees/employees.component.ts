@@ -36,6 +36,8 @@ export class EmployeesComponent {
   deleteDialogTitle: string = "Employee Delete Confirmation";
   deleteDialogBody: string = "Are you sure you want to delete this employee?";
 
+  actionsDisabled: boolean = false;
+
   employeesTableColumns: string[] = [
     "Name",
     "Position",
@@ -88,8 +90,17 @@ export class EmployeesComponent {
   ngOnInit(){
     this.loadEmployees();
     this.loadPositionsList();
+    this.checkRole();
   }
 
+  checkRole(){
+    let role = localStorage.getItem('role');
+
+    if(role?.toUpperCase() != 'ADMIN' && role?.toUpperCase() != 'HR'){
+      this.actionsDisabled = true;
+
+    }
+  }
 
   loadSaveDialog(employeeId?: number) {
     this.resetForm();
